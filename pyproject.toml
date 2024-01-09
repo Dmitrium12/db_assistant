@@ -1,0 +1,36 @@
+[tool.poetry]
+name = "djarvis-2-0"
+version = "0.1.0"
+description = ""
+authors = ["dmitrium12 <belicdima8@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+vosk = "^0.3.45"
+pvporcupine = "^3.0.1"
+pvrecorder = "^1.2.1"
+omegaconf = "^2.3.0"
+numpy = "^1.26.2"
+simpleaudio = "^1.0.4"
+rich = "^13.7.0"
+fuzzywuzzy = "^0.18.0"
+python-levenshtein = "^0.23.0"
+comtypes = "^1.2.0"
+pycam = "^0.6.4"
+sounddevice = "^0.4.6"
+pyyaml = "^6.0.1"
+python-dotenv = "^1.0.0"
+pycaw = "^20230407"
+torch = "^2.1.1+cpu"
+torchaudio = "^2.1.1+cpu"
+
+
+[[tool.poetry.source]]
+name = "torch"
+url = "https://download.pytorch.org/whl/cpu"
+priority = "supplemental"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
