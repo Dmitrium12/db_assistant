@@ -2,11 +2,13 @@ import json
 import os
 import struct
 import time
+
 import pvporcupine
 import vosk
 import yaml
 from fuzzywuzzy import fuzz
 from pvrecorder import PvRecorder
+
 import config
 from utils import execute_cmd, play
 
@@ -15,7 +17,7 @@ class Jarvis:
     def __init__(self):
         self.recorder = None
         self.CDIR = os.getcwd()
-        self.VA_CMD_LIST = yaml.safe_load(open('commands.yaml', 'rt', encoding='utf8'))
+        self.VA_CMD_LIST = yaml.safe_load(open('commands.yaml', encoding='utf8'))
         self.porcupine = pvporcupine.create(
             access_key=config.PICOVOICE_TOKEN,
             keywords=['jarvis'],

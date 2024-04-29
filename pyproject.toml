@@ -24,6 +24,8 @@ python-dotenv = "^1.0.0"
 pycaw = "^20230407"
 torch = "^2.1.1+cpu"
 torchaudio = "^2.1.1+cpu"
+ollama = "^0.1.6"
+ruff = "^0.4.2"
 
 
 [[tool.poetry.source]]
@@ -34,3 +36,20 @@ priority = "supplemental"
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.ruff]
+exclude = [
+    ".git",
+    ".ruff_cache",
+    ".venv",
+    "venv",
+    "mongodb",
+    "data",
+]
+line-length = 112
+
+[tool.ruff.lint]
+select = ["E", "F", "UP", "I"]
+
+[tool.ruff.format]
+skip-magic-trailing-comma = true
