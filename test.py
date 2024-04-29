@@ -2,17 +2,32 @@ import asyncio
 import re
 
 import ollama
+import yaml
+
+
+def load_commands(file_path):
+    with open(file_path) as file:
+        data = yaml.safe_load(file)
+        answers = {}
+        command_mapping = {}
+        idx = 1
+        for category, items in data.items():
+            answers[idx] = items
+            command_mapping[idx] = category
+            idx += 1
+        return answers, command_mapping
 
 
 async def chat(answers: dict[int, str], request: str = 'музычку пожалуйста') -> str:
-    answers_str = ''.join([f'{key}. {value}\n' for key, value in answers.items()])
+    answers_str = ''.join([f'{key}. {", ".join(value)}\n' for key, value in answers.items()])
     messages = [
         {
             'role': 'system',
-            'content': 'Ты должен ответить на вопрос пользователя числом или набором чисел.'
-                       'Пример твоего ответа: 1.'
-                       'Ещё один пример: 4 и 3'
-                       ' Вот список:\n' + answers_str
+            'content': 'Пожалуйста, просмотрите список доступных команд и '
+                       'выберите подходящую команду, указав ее номер. '
+                       'Вы можете выбрать одну команду или несколько команд одновременно. '
+                       'В ответе укажите только номер или номера команд, '
+                       'например: "1" или "1, 3, 5". Вот список доступных команд:\n' + answers_str
         },
         {
             'role': 'user',
@@ -25,32 +40,26 @@ async def chat(answers: dict[int, str], request: str = 'музычку пожа�
         messages=messages,
         options={
             'temperature': 0.5,
+            'mirostat_tau': 100.0,
+            'repeat_last_n': 2,
+            'num_predict': 20
         }
     )
     return response.get("message").get("content")
 
 
 async def main():
-    answers = {
-        1: "включить музыку",
-        2: "остановить музыку",
-        3: "следующая композиция",
-        4: "предыдущая композиция",
-        5: 'погода',
-        99: "ничего из этого"
-    }
+    answers, command_mapping = load_commands('commands.yaml')
     number = None
     while not number:
         response_content = await chat(answers, "останови музыку и скажи погоду")
-        print(response_content)
         number = [
             int(i)
             for i in re.findall(r'\d+', response_content)
             if int(i) in answers.keys()
         ]
-        if not number:
-            print("Не удалось определить номер. Пожалуйста, попробуйте снова.")
-    print(f"Выбранный номер: {number}")
+    command_names = [command_mapping[n] for n in number]
+    print(f"Выбранный номер: {command_names}")
 
 
 if __name__ == '__main__':
