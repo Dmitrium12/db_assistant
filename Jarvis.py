@@ -4,7 +4,6 @@ import struct
 import time
 
 import noisereduce as nr
-import numpy as np
 import pvporcupine
 import vosk
 import yaml
