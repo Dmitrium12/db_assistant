@@ -40,7 +40,7 @@ class Jarvis:
             try:
                 pcm = self.recorder.read()
                 reduced_audio = nr.reduce_noise(
-                    y=np.frombuffer(pcm, dtype=np.int16),
+                    y=pcm,
                     sr=16000,
                     prop_decrease=0.6
                 )
