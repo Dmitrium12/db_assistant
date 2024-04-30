@@ -3,6 +3,8 @@ import os
 import struct
 import time
 
+import noisereduce as nr
+import numpy as np
 import pvporcupine
 import vosk
 import yaml
@@ -23,7 +25,7 @@ class Jarvis:
             keywords=['jarvis'],
             sensitivities=[1]
         )
-        self.kaldi_rec = vosk.KaldiRecognizer(vosk.Model("model_small"), 32000)
+        self.kaldi_rec = vosk.KaldiRecognizer(vosk.Model("model_large"), 16000)
 
     def main(self):
         self.recorder = PvRecorder(
@@ -37,7 +39,12 @@ class Jarvis:
         while True:
             try:
                 pcm = self.recorder.read()
-                if self.porcupine.process(pcm) >= 0:
+                reduced_audio = nr.reduce_noise(
+                    y=np.frombuffer(pcm, dtype=np.int16),
+                    sr=16000,
+                    prop_decrease=0.6
+                )
+                if self.porcupine.process(reduced_audio) >= 0:
                     self.recorder.stop()
                     self.play("greet", True)
                     self.recorder.start()
