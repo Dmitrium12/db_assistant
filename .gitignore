@@ -6,8 +6,8 @@ __pycache__/
 *$py.class
 
 # Custom
-model_small/
-model_large/
+data/model_small/
+data/model_large/
 
 # C extensions
 *.so

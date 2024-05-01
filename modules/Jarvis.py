@@ -10,21 +10,22 @@ import yaml
 from fuzzywuzzy import fuzz
 from pvrecorder import PvRecorder
 
-import config
-from utils import execute_cmd, play
+from data import config
+from utils import download_models, execute_cmd, play
 
 
 class Jarvis:
     def __init__(self):
+        download_models.install_vosk_model()
         self.recorder = None
         self.CDIR = os.getcwd()
-        self.VA_CMD_LIST = yaml.safe_load(open('commands.yaml', encoding='utf8'))
+        self.VA_CMD_LIST = yaml.safe_load(open('data/commands.yaml', encoding='utf8'))
         self.porcupine = pvporcupine.create(
             access_key=config.PICOVOICE_TOKEN,
             keywords=['jarvis'],
             sensitivities=[1]
         )
-        self.kaldi_rec = vosk.KaldiRecognizer(vosk.Model("model_large"), 16000)
+        self.kaldi_rec = vosk.KaldiRecognizer(vosk.Model("data/model_small"), 16000)
 
     def main(self):
         self.recorder = PvRecorder(

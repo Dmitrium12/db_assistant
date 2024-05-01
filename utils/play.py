@@ -15,7 +15,7 @@ def play(self, phrase, wait_done=True):
     if wait_done:
         self.recorder.stop()
     if filename:
-        wave_obj = sa.WaveObject.from_wave_file(f"{self.CDIR}/sound/{filename}")
+        wave_obj = sa.WaveObject.from_wave_file(f"{self.CDIR}/data/sound/{filename}")
         play_obj = wave_obj.play()
         if wait_done:
             play_obj.wait_done()
