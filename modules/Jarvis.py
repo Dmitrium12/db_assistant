@@ -11,6 +11,7 @@ from fuzzywuzzy import fuzz
 from pvrecorder import PvRecorder
 
 from data import config
+from modules.HomeAssistant import HomeAssistant
 from utils import download_models, execute_cmd, play
 
 
@@ -20,6 +21,7 @@ class Jarvis:
         self.recorder = None
         self.CDIR = os.getcwd()
         self.VA_CMD_LIST = yaml.safe_load(open('data/commands.yaml', encoding='utf8'))
+        self.home_assistant = HomeAssistant()
         self.porcupine = pvporcupine.create(
             access_key=config.PICOVOICE_TOKEN,
             keywords=['jarvis'],
@@ -71,6 +73,7 @@ class Jarvis:
                 if vrt > rc['percent']:
                     rc['cmd'] = c
                     rc['percent'] = vrt
+                    rc['recognized_phrase'] = x
         if len(rc['cmd'].strip()) <= 0:
             return False
         elif rc['percent'] < 70 or rc['cmd'] not in self.VA_CMD_LIST.keys():
@@ -78,7 +81,7 @@ class Jarvis:
             time.sleep(1)
             return False
         else:
-            execute_cmd.execute_cmd(self, rc['cmd'])
+            execute_cmd.execute_cmd(self, rc['cmd'], rc['recognized_phrase'], voice)
             return True
 
     def play(self, phrase, wait_done=True):
