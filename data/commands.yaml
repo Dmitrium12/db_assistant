@@ -72,7 +72,9 @@ weather:
   - возможен дождь сегодня?
   - прогноз погоды на сегодня
   - погода
-home_assistant:
+home_assistant_execute:
   - включи телевизор
   - выключи телевизор
   - начни уборку
+home_assistant_get:
+  - тест

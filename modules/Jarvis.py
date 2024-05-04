@@ -11,7 +11,7 @@ from fuzzywuzzy import fuzz
 from pvrecorder import PvRecorder
 
 from data import config
-from modules.HomeAssistant import HomeAssistant
+from modules import HomeAssistant
 from utils import download_models, execute_cmd, play
 
 
@@ -21,7 +21,7 @@ class Jarvis:
         self.recorder = None
         self.CDIR = os.getcwd()
         self.VA_CMD_LIST = yaml.safe_load(open('data/commands.yaml', encoding='utf8'))
-        self.home_assistant = HomeAssistant()
+        self.home_assistant = HomeAssistant.HomeAssistant()
         self.porcupine = pvporcupine.create(
             access_key=config.PICOVOICE_TOKEN,
             keywords=['jarvis'],

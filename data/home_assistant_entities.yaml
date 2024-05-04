@@ -1,0 +1,4 @@
+пылесос:
+  - entity_id:vacuum.roborock_vacuum_m1s
+  - state:находится в
+  - attributes.battery_level:а его уровень зарядки
