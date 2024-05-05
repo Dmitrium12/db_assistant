@@ -3,7 +3,15 @@ import random
 import simpleaudio as sa
 
 
-def play(self, phrase, wait_done=True):
+def play(self, phrase: str, wait_done: bool = True) -> None:
+    """
+    Функция для запуска голосовой команды
+
+    :param self: modules.Jarvis - объект основного модуля
+    :param phrase: str - фраза для запуска голосовой команды
+    :param wait_done: bool - нужно-ли ждать окончания фразы
+    :return:
+    """
     filename = None
     file_array = ["not_found", "thanks", "run", "stupid", "ready", "off"]
     if phrase == "greet":

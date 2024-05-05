@@ -16,6 +16,9 @@ from utils import download_models, execute_cmd, play
 
 
 class Jarvis:
+    """
+    Это основной модуль голосового ассистента
+    """
     def __init__(self):
         download_models.install_vosk_model()
         self.recorder = None
@@ -62,7 +65,13 @@ class Jarvis:
                 print(f"Unexpected {err=}, {type(err)=}")
                 raise
 
-    def va_respond(self, voice: str):
+    def va_respond(self, voice: str) -> bool:
+        """
+        Функция предсказывает команду
+
+        :param voice: str - распознанная строка
+        :return: bool - распознана или нет команда
+        """
         print(f"Распознано: {voice}")
         for x in config.VA_ALIAS + config.VA_TBR:
             voice = voice.replace(x, "").strip()
@@ -84,5 +93,13 @@ class Jarvis:
             execute_cmd.execute_cmd(self, rc['cmd'], rc['recognized_phrase'], voice)
             return True
 
-    def play(self, phrase, wait_done=True):
+    def play(self, phrase: str, wait_done: bool = True):
+        """
+        Функция для запуска голосовой команды
+
+        :param self: modules.Jarvis - объект основного модуля
+        :param phrase: str - фраза для запуска голосовой команды
+        :param wait_done: bool - нужно-ли ждать окончания фразы
+        :return:
+        """
         play.play(self, phrase, wait_done)
