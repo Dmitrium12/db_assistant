@@ -1,4 +1,13 @@
-def execute_cmd(self, cmd: str, recognized_phrase: str, voice: str):
+def execute_cmd(self, cmd: str, recognized_phrase: str, voice: str) -> None:
+    """
+    Функция выполняет полученные команды
+
+    :param self: modules.Jarvis - объект основного модуля
+    :param cmd: str - команда которую функция должна выполнить
+    :param recognized_phrase: str - распознанная фраза из списка фраз
+    :param voice: str - распознанная фраза без проверки по списку
+    :return:
+    """
     if cmd == 'thanks':
         self.play("thanks")
     elif cmd == 'stupid':
