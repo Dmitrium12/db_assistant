@@ -28,6 +28,7 @@ ollama = "^0.1.6"
 ruff = "^0.4.2"
 noisereduce = "^3.0.2"
 environs = "^11.0.0"
+webrtcvad = "^2.0.10"
 
 
 [[tool.poetry.source]]
