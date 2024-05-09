@@ -16,6 +16,14 @@ def execute_cmd(self, cmd: str, recognized_phrase: str, voice: str) -> None:
         self.play("off", True)
         self.porcupine.delete()
         exit(0)
+    elif cmd == 'music_on':
+        self.media_player_controller.play_pause()
+    elif cmd == 'music_off':
+        self.media_player_controller.play_pause()
+    elif cmd == 'music_next':
+        self.media_player_controller.next_track()
+    elif cmd == 'music_previous':
+        self.media_player_controller.previous_track()
     elif cmd == 'home_assistant_execute':
         self.home_assistant.send_process(recognized_phrase)
     elif cmd == 'home_assistant_get':

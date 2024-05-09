@@ -11,7 +11,7 @@ from fuzzywuzzy import fuzz
 from pvrecorder import PvRecorder
 
 from data import config
-from modules import HomeAssistant
+from modules import HomeAssistant, MediaPlayerController
 from utils import download_models, execute_cmd, play
 
 
@@ -25,6 +25,7 @@ class Jarvis:
         self.CDIR = os.getcwd()
         self.VA_CMD_LIST = yaml.safe_load(open('data/commands.yaml', encoding='utf8'))
         self.home_assistant = HomeAssistant.HomeAssistant()
+        self.media_player_controller = MediaPlayerController.MediaPlayerController()
         self.porcupine = pvporcupine.create(
             access_key=config.PICOVOICE_TOKEN,
             keywords=['jarvis'],
@@ -73,7 +74,7 @@ class Jarvis:
         :return: bool - распознана или нет команда
         """
         print(f"Распознано: {voice}")
-        for x in config.VA_ALIAS + config.VA_TBR:
+        for x in config.VA_ALIAS:
             voice = voice.replace(x, "").strip()
         rc = {'cmd': '', 'percent': 0}
         for c, v in self.VA_CMD_LIST.items():
