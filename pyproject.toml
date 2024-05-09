@@ -28,6 +28,9 @@ ollama = "^0.1.6"
 ruff = "^0.4.2"
 noisereduce = "^3.0.2"
 environs = "^11.0.0"
+bs4 = "^0.0.2"
+fake-useragent = "^1.5.1"
+curl-cffi = "^0.6.3"
 
 
 [[tool.poetry.source]]

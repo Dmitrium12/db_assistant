@@ -1,4 +1,12 @@
-def execute_cmd(self, cmd: str, recognized_phrase: str, voice: str) -> None:
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from modules.Jarvis import Jarvis
+else:
+    Jarvis = None
+
+
+def execute_cmd(self: Jarvis, cmd: str, recognized_phrase: str, voice: str) -> None:
     """
     Функция выполняет полученные команды
 
@@ -30,3 +38,7 @@ def execute_cmd(self, cmd: str, recognized_phrase: str, voice: str) -> None:
         entity_name = self.home_assistant.voice_to_name(voice)
         entity_info = self.home_assistant.validate_info(entity_name)
         print(entity_info)
+    elif cmd == 'weather':
+        city = self.weather.validate_city(voice)
+        city_info = self.weather.get_info(city)
+        print(city_info)
