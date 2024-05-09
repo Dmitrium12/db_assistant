@@ -12,12 +12,6 @@ class MediaPlayerController:
         elif self.os_type == 'Linux':
             self._linux_control("play-pause")
 
-    def stop(self):
-        if self.os_type == 'Windows':
-            self._windows_control("stop")
-        elif self.os_type == 'Linux':
-            self._linux_control("stop")
-
     def next_track(self):
         if self.os_type == 'Windows':
             self._windows_control("next")
@@ -30,28 +24,24 @@ class MediaPlayerController:
         elif self.os_type == 'Linux':
             self._linux_control("previous")
 
-    @staticmethod
-    def _windows_play_pause():
-        from pycaw.pycaw import AudioUtilities
-        sessions = AudioUtilities.GetAllSessions()
-        for session in sessions:
-            if session.Process and session.AudioSessionControl:
-                control = session.AudioSessionControl
-                if control and control.State == 1:
-                    control.Stop()
-                else:
-                    control.Play()
+    def _windows_play_pause(self):
+        import win32con
+        self.key_press(win32con.VK_MEDIA_PLAY_PAUSE)
+
+    def _windows_control(self, action):
+        import win32con
+        if action == "next":
+            self.key_press(win32con.VK_MEDIA_NEXT_TRACK)
+        elif action == "previous":
+            self.key_press(win32con.VK_MEDIA_PREV_TRACK)
 
     @staticmethod
-    def _windows_control(action):
-        from pycaw.pycaw import AudioUtilities, IAudioSessionControl2
-        sessions = AudioUtilities.GetAllSessions()
-        for session in sessions:
-            if session.Process and isinstance(session.ControlInterface, IAudioSessionControl2):
-                if action == "stop":
-                    session.SimpleAudioVolume.SetMute(1, None)
-                elif action == "next" or action == "previous":
-                    pass
+    def key_press(key_code):
+        """Симуляция нажатия и отпускания клавиши."""
+        import win32api
+        import win32con
+        win32api.keybd_event(key_code, 0, 0, 0)
+        win32api.keybd_event(key_code, 0, win32con.KEYEVENTF_KEYUP, 0)
 
     @staticmethod
     def _linux_control(command):
