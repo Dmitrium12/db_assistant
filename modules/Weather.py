@@ -19,4 +19,5 @@ class Weather:
         return f"За окном {temp}, {weather}"
 
     def validate_city(self, voice: str) -> str:
+        print(voice)
         return self.default_city
