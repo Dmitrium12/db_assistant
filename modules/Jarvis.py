@@ -11,7 +11,7 @@ from fuzzywuzzy import fuzz
 from pvrecorder import PvRecorder
 
 from data import config
-from modules import HomeAssistant, MediaPlayerController
+from modules import HomeAssistant, MediaPlayerController, Weather
 from utils import download_models, execute_cmd, play
 
 
@@ -26,6 +26,7 @@ class Jarvis:
         self.VA_CMD_LIST = yaml.safe_load(open('data/commands.yaml', encoding='utf8'))
         self.home_assistant = HomeAssistant.HomeAssistant()
         self.media_player_controller = MediaPlayerController.MediaPlayerController()
+        self.weather = Weather.Weather()
         self.porcupine = pvporcupine.create(
             access_key=config.PICOVOICE_TOKEN,
             keywords=['jarvis'],
