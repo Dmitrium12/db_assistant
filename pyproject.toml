@@ -31,6 +31,7 @@ environs = "^11.0.0"
 bs4 = "^0.0.2"
 fake-useragent = "^1.5.1"
 curl-cffi = "^0.6.3"
+pandas = "^2.2.2"
 
 
 [[tool.poetry.source]]
