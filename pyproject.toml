@@ -6,7 +6,7 @@ authors = ["dmitrium12 <belicdima8@gmail.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.11"
+python = ">=3.11,<3.12"
 vosk = "^0.3.45"
 pvporcupine = "^3.0.1"
 pvrecorder = "^1.2.1"
@@ -29,6 +29,7 @@ ruff = "^0.4.2"
 noisereduce = "^3.0.2"
 environs = "^11.0.0"
 webrtcvad = "^2.0.10"
+tts = "^0.22.0"
 
 
 [[tool.poetry.source]]

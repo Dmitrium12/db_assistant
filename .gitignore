@@ -9,7 +9,7 @@ __pycache__/
 data/model_small/
 data/model_large/
 data/v4_ru.pt
-wav_files/
+MyTTSDataset/
 vocal.wav
 
 # C extensions

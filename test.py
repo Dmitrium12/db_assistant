@@ -1,41 +1,42 @@
-import os
-
 import requests
 from bs4 import BeautifulSoup
 
-# URL веб-страницы, которую нужно спарсить
-url = 'https://theportalwiki.com/wiki/GLaDOS_voice_lines/ru'
-
-# Получаем содержимое страницы
-response = requests.get(url)
-response.raise_for_status()  # Проверка на успешный запрос
-
-# Парсим HTML
-soup = BeautifulSoup(response.text, 'html.parser')
-
-# Находим все теги <a>
-links = soup.find_all('a')
-
-# Фильтруем ссылки, которые заканчиваются на .wav
-wav_links = [
-    link.get('href') for link in links if link.get('href') and link.get('href').endswith('.wav')
-]
-
-# Создаем директорию для сохранения файлов, если её нет
-os.makedirs('wav_files', exist_ok=True)
-
-# Скачиваем каждый wav-файл
-for wav_link in wav_links:
-    # Получаем имя файла из URL
-    filename = wav_link.split('/')[-1]
-    file_path = os.path.join('wav_files', filename)
-
-    # Скачиваем файл
-    response = requests.get(wav_link)
-    response.raise_for_status()
-
-    # Сохраняем файл
-    with open(file_path, 'wb') as file:
-        file.write(response.content)
-
-    print(f"Downloaded {filename}")
+repetition = 0
+response = {}
+soup = BeautifulSoup(
+    requests.get('https://theportalwiki.com/wiki/GLaDOS_voice_lines/ru').text,
+    features='html.parser'
+)
+for li in soup.find_all('li'):
+    try:
+        i = li.find('i').text
+        url = li.find('span', class_=['audio-player']).find('a')['href']
+        if i not in response.keys():
+            response[i] = url
+        else:
+            repetition += 1
+    except AttributeError:
+        pass
+    try:
+        i = li.find('a').text
+        url = li.find('a')['href']
+        if i not in response.keys():
+            response[i] = url
+        else:
+            repetition += 1
+    except AttributeError:
+        pass
+print(f'Количество найденный элементов: {len(response)}')
+print(f'Количество повторении: {repetition}')
+with open('MyTTSDataset/transcript.txt', 'w') as f:
+    for index, (key, value) in enumerate(response.items()):
+        try:
+            response = requests.get(value)
+            if response.status_code == 200:
+                with open(f"MyTTSDataset/wavs/wav{index}.wav", 'wb') as file:
+                    file.write(response.content)
+            f.write(f'wav{index}|{" ".join(key.split()[1:])}\n')
+        except requests.exceptions.MissingSchema:
+            pass
+        except requests.exceptions.InvalidSchema:
+            pass
